@@ -58,7 +58,7 @@ export default {
   methods: {
     async lookupPerson() {
       this.errorMessage = "";
-      var url = new URL("http://www.wikidata.org/w/api.php");
+      var url = new URL("https://www.wikidata.org/w/api.php");
       var params = {
         origin: '*',
         action: 'wbsearchentities',
@@ -85,7 +85,7 @@ export default {
 
     async parseLifespan(entity) {
       const entityId = entity.id;
-      var url = new URL("http://www.wikidata.org/w/api.php");
+      var url = new URL("https://www.wikidata.org/w/api.php");
       var params = {
         origin: '*',
         action: 'wbgetclaims',
@@ -153,7 +153,7 @@ export default {
     //
     // async getImage(index, entity) {
     //   const entityId = entity.id;
-    //   var url = new URL("http://www.wikidata.org/w/api.php");
+    //   var url = new URL("https://www.wikidata.org/w/api.php");
     //   var params = {
     //     origin: '*',
     //     action: 'wbgetclaims',
