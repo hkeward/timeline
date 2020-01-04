@@ -143,13 +143,10 @@ export default {
               deathEra: deathEra});
 
           } else {
-            console.log(entity);
-            console.log(claims);
             this.errorMessage = "Selected entity is non-human";
           }
         }
       } catch (error) {
-        console.error(error);
         throw Error("Error searching Wikidata");
       }
 
@@ -184,7 +181,6 @@ export default {
     //
     //     this.possibleMatchesImages.splice(index, 1, imgUrl);
     //   } catch (error) {
-    //     console.log(error);
     //     throw Error("Some issue getting image");
     //   }
     // },
