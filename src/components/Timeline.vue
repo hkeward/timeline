@@ -33,8 +33,8 @@
     </div>
     <div>
       <ul>
-        <li v-for="(entity, index) in timelineEntities" v-bind:key="index">
-          {{entity.name}}: {{entity.birthDate}} to {{entity.deathDate || 'present'}}
+        <li v-for="(entity, index) in orderedTimelineEntities" v-bind:key="index">
+          {{entity.name}}: {{Math.abs(entity.birthDate)}} {{entity.birthEra}} to {{Math.abs(entity.deathDate) || 'present'}} {{entity.deathEra || ''}}
         </li>
       </ul>
     </div>
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import _ from 'lodash';
+
 export default {
   name: "Timeline",
 
@@ -97,7 +99,9 @@ export default {
       );
       try {
         var birthDate;
+        var birthEra;
         var deathDate;
+        var deathEra;
 
         const response = await fetch(url);
         const data = await response;
@@ -112,30 +116,31 @@ export default {
           });
 
           // human or human character in the Old Testament
-          if (instanceClaims.includes('Q5') || instanceClaims.includes('Q20643955')) {
+          if (
+            instanceClaims.includes("Q5") ||
+            instanceClaims.includes("Q20643955")
+          ) {
             //  if human, retrieve birth and death dates
             if ('P569' in claims) {
               // This assumes the first date in the array is the best one, not necessarily true
               var birth = claims.P569[0].mainsnak.datavalue.value.time;
-              if (birth.substring(0, 1) === '-') {
-                birthDate = birth.substring(1, 5).replace(/^0+/, '').concat(" BC");
-              } else {
-                birthDate = birth.substring(1, 5).replace(/^0+/, '').concat(" AD");
-              }
+              birthDate = parseInt(birth.substring(0, 5));
+              birthEra = birthDate < 0 ? "BC" : "AD";
             } else {
               this.errorMessage = "Birth date is confusing me, sorry!";
             }
 
             if ('P570' in claims) {
               var death = claims.P570[0].mainsnak.datavalue.value.time;
-              if (death.substring(0, 1) === '-') {
-                deathDate = death.substring(1, 5).replace(/^0+/, '').concat(" BC");
-              } else {
-                deathDate = death.substring(1, 5).replace(/^0+/, '').concat(" AD");
-              }
+              deathDate = parseInt(death.substring(0, 5));
+              deathEra = deathDate < 0 ? "BC" : "AD";
             }
 
-            this.addToTimeline(entity.label, birthDate, deathDate);
+            this.addToTimeline({name: entity.label,
+              birthDate: birthDate,
+              birthEra: birthEra,
+              deathDate: deathDate,
+              deathEra: deathEra});
 
           } else {
             console.log(entity);
@@ -198,15 +203,17 @@ export default {
       this.possibleMatches = [];
     },
 
-    addToTimeline(name, birthDate, deathDate) {
-      this.timelineEntities.push({name: name, birthDate: birthDate, deathDate: deathDate});
+    addToTimeline(entity) {
+      this.timelineEntities.push(entity);
       this.personName = "";
       this.$refs.input.focus();
     },
   },
 
-  watch: {
-
+  computed: {
+    orderedTimelineEntities() {
+      return _.orderBy(this.timelineEntities, ['birthDate']);
+    }
   }
 };
 </script>
