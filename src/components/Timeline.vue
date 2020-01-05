@@ -10,6 +10,36 @@
     <div v-if="errorMessage" id="error">
       {{errorMessage}}
     </div>
+    <div id="timeline">
+      <div id="map">
+        <div id="map-top">
+          <div v-for="(partition, index) in partitions" v-bind:key="index" :class="partition.feature">
+          </div>
+        </div>
+        <div id="map-top-mid">
+          <div v-for="(partition, index) in partitions" v-bind:key="index" :class="partition.feature" class="mid">
+          </div>
+        </div>
+        <div id="map-bottom-mid">
+          <div v-for="(partition, index) in partitions" v-bind:key="index" :class="partition.feature" class="mid">
+          </div>
+        </div>
+        <div id="map-bottom">
+          <div v-for="(partition, index) in partitions" v-bind:key="index" :class="partition.feature">
+          </div>
+        </div>
+        <div id="values">
+          <div v-for="(partition, index) in partitions" v-bind:key="index">
+            <div>
+              {{scale.min + index * scale.partition_length}}
+            </div>
+            <div v-if="index === (partitions.length - 1)" class="max-value">
+              {{scale.max}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div>
       <div v-if="possibleMatches">
         <table>
@@ -53,7 +83,12 @@ export default {
       possibleMatches: [],
       possibleMatchesImages: [],
       errorMessage: "",
-      timelineEntities: []
+      timelineEntities: [],
+      scale: {
+        min: -100,
+        max: 100,
+        partition_length: 50
+      }
     };
   },
 
@@ -209,6 +244,22 @@ export default {
   computed: {
     orderedTimelineEntities() {
       return _.orderBy(this.timelineEntities, ['birthDate']);
+    },
+    partitions() {
+      var partitions = [];
+      var num_partitions = (this.scale.max - this.scale.min) / this.scale.partition_length;
+      for (var i=0; i < num_partitions; i++) {
+        var partition_object = {};
+        if (i === 0) {
+          partition_object.feature = 'first';
+        } else if (i === num_partitions - 1) {
+          partition_object.feature = 'last';
+        } else {
+          partition_object.feature = 'internal';
+        }
+        partitions.push(partition_object);
+      }
+      return partitions;
     }
   }
 };
@@ -242,5 +293,70 @@ table {
 
 #error {
   color: darkred;
+}
+
+#map {
+  margin-top: 10px;
+  height: auto;
+  width: 100%;
+}
+
+#map-top,
+#map-top-mid,
+#map-bottom-mid,
+#map-bottom,
+#values {
+  display: flex;
+}
+
+#map-top div {
+  height: 10px;
+  flex-basis: 100%;
+}
+
+#map-top-mid div {
+  height: 10px;
+  flex-basis: 100%;
+  border-bottom: 1px solid black;
+}
+
+#map-bottom-mid div {
+  height: 10px;
+  flex-basis: 100%;
+}
+
+#map-bottom div {
+  height: 10px;
+  flex-basis: 100%;
+}
+
+#values div {
+  flex-basis: 100%;
+  display: flex;
+}
+
+.max-value {
+  justify-content: flex-end;
+}
+
+.first {
+  border-left: 2px solid black;
+  border-right: 1px solid transparent;
+}
+
+.first.mid {
+  border-right: 1px solid black;
+}
+
+.last {
+  border-right: 2px solid black;
+}
+
+.internal {
+  border-right: 1px solid transparent;
+}
+
+.internal.mid {
+  border-right: 1px solid black;
 }
 </style>
