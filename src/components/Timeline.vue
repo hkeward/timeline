@@ -19,7 +19,7 @@
       </div>
     </div>
     <div>
-      <input v-model="personName" v-on:keyup.enter="lookupPerson" ref="input" />
+      <input v-model="personName" v-on:keyup.enter="lookupPerson(personName)" ref="input" />
       <button @click="lookupPerson">Add it!</button>
     </div>
     <div v-if="errorMessage" id="error">
@@ -265,7 +265,7 @@ export default {
 
   methods: {
     async lookupPerson(providedPerson) {
-      var person = providedPerson || this.personName;
+      var person = providedPerson;
       this.errorMessage = "";
       var url = new URL("https://www.wikidata.org/w/api.php");
       var params = {
