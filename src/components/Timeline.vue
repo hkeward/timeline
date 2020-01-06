@@ -288,7 +288,7 @@ export default {
           this.showOptions(searchResults.search);
         }
       } catch (error) {
-        throw Error("Error searching Wikidata");
+        this.errorMessage = `No results found for "${providedPerson}"`;
       }
     },
 
