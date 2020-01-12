@@ -13,6 +13,7 @@
         <input id="scale-max" v-model.lazy.number="scale.max" />
         <label for="scale-partition-length">Partition length</label>
         <input
+          @blur="log"
           id="scale-partition-length"
           v-model.lazy.number="scale.partition_length"
         />
@@ -63,179 +64,8 @@
     <div v-if="errorMessage" id="error">
       {{ errorMessage }}
     </div>
-    <div id="timeline">
-      <div id="map">
-        <div id="map-top">
-          <div v-for="(partition, index) in partitions" v-bind:key="index">
-            <div v-if="zeroNotShown && index === partitions.length - 1">
-              <div v-if="zeroNotShown && index === indexPriorToZero"></div>
-              <div :class="partition.feature"></div>
-            </div>
-            <div v-else>
-              <div :class="partition.feature"></div>
-              <div v-if="zeroNotShown && index === indexPriorToZero"></div>
-            </div>
-          </div>
-        </div>
-        <div id="map-top-mid">
-          <div v-for="(partition, index) in partitions" v-bind:key="index">
-            <div v-if="zeroNotShown && index === partitions.length - 1">
-              <div
-                v-if="zeroNotShown && index === indexPriorToZero"
-                class="zero-value"
-              ></div>
-              <div :class="partition.feature" class="mid"></div>
-            </div>
-            <div v-else>
-              <div :class="partition.feature" class="mid"></div>
-              <div
-                v-if="zeroNotShown && index === indexPriorToZero"
-                class="zero-value"
-              ></div>
-            </div>
-          </div>
-        </div>
-        <div id="map-bottom-mid">
-          <div v-for="(partition, index) in partitions" v-bind:key="index">
-            <div v-if="zeroNotShown && index === partitions.length - 1">
-              <div
-                v-if="zeroNotShown && index === indexPriorToZero"
-                class="zero-value"
-              ></div>
-              <div :class="partition.feature" class="mid"></div>
-            </div>
-            <div v-else>
-              <div :class="partition.feature" class="mid"></div>
-              <div
-                v-if="zeroNotShown && index === indexPriorToZero"
-                class="zero-value"
-              ></div>
-            </div>
-          </div>
-        </div>
-        <div id="map-bottom">
-          <div v-for="(partition, index) in partitions" v-bind:key="index">
-            <div v-if="zeroNotShown && index === partitions.length - 1">
-              <div v-if="zeroNotShown && index === indexPriorToZero"></div>
-              <div :class="partition.feature"></div>
-            </div>
-            <div v-else>
-              <div :class="partition.feature"></div>
-              <div v-if="zeroNotShown && index === indexPriorToZero"></div>
-            </div>
-          </div>
-        </div>
-        <div id="values">
-          <div v-for="(partition, index) in partitions" v-bind:key="index">
-            <div>
-              {{ partition.value }}
-            </div>
-            <div>
-              <div v-if="zeroNotShown && index === indexPriorToZero">
-                0
-              </div>
-              <div v-if="index === partitions.length - 1" class="max-value">
-                {{ scale.max }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div v-for="(entity, index) in orderedTimelineEntities" :key="index">
-        <div>
-          <!--          If the start of the birthDate is lower than scale.min -->
-          <div
-            v-if="entity.birthDate <= scale.min && entity.deathDate"
-            class="timeline-bar"
-          >
-            <!--            Don't display anything if the birthDate and deathDate are below the scale.min -->
-            <div
-              v-if="entity.deathDate <= scale.min"
-              :style="{ width: 0 + '%' }"
-            ></div>
-            <div
-              v-else-if="entity.deathDate <= scale.max"
-              :title="entity.name"
-              class="timeline-entity"
-              :style="{
-                width:
-                  ((entity.deathDate - scale.min) / (scale.max - scale.min)) *
-                    100 +
-                  '%',
-                background: 'rgb(' + entity.colour + ')'
-              }"
-            ></div>
-            <div
-              v-else
-              :title="entity.name"
-              class="timeline-entity"
-              :style="{
-                width: 100 + '%',
-                background: 'rgb(' + entity.colour + ')'
-              }"
-            ></div>
-          </div>
-          <!--          If the start of the birthDate falls between scale.min and scale.max -->
-          <div
-            v-else-if="
-              entity.birthDate >= scale.min && entity.birthDate <= scale.max
-            "
-            class="timeline-bar"
-          >
-            <div
-              :style="{
-                width:
-                  ((entity.birthDate - scale.min) / (scale.max - scale.min)) *
-                    100 +
-                  '%'
-              }"
-            ></div>
-
-            <div
-              v-if="entity.deathDate < scale.max"
-              :title="entity.name"
-              class="timeline-entity"
-              :style="{
-                width:
-                  ((entity.deathDate - entity.birthDate) /
-                    (scale.max - scale.min)) *
-                    100 +
-                  '%',
-                background: 'rgb(' + entity.colour + ')'
-              }"
-            ></div>
-            <div
-              v-else-if="entity.deathDate >= scale.max"
-              :title="entity.name"
-              class="timeline-entity"
-              :style="{
-                width:
-                  100 -
-                  ((entity.birthDate - scale.min) / (scale.max - scale.min)) *
-                    100 +
-                  '%',
-                background: 'rgb(' + entity.colour + ')'
-              }"
-            ></div>
-            <!--            If deathDate isn't defined, assume they're still alive -->
-            <div
-              v-else
-              :title="entity.name"
-              class="timeline-entity alive"
-              :style="{
-                width:
-                  ((currentYear - entity.birthDate) / (scale.max - scale.min)) *
-                    100 +
-                  '%',
-                background: 'rgb(' + entity.colour + ')'
-              }"
-            ></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <timeline />
+    <timeline-entities />
     <div>
       <div v-if="possibleMatches">
         <table>
@@ -279,10 +109,18 @@
 </template>
 
 <script>
+import Timeline from "./Timeline.vue";
+import TimelineEntities from "./TimelineEntities.vue";
+import { mapState, mapGetters } from "vuex";
 import _ from "lodash";
 
 export default {
-  name: "Timeline",
+  name: "TimelineApp",
+
+  components: {
+    Timeline,
+    TimelineEntities
+  },
 
   data() {
     return {
@@ -291,11 +129,6 @@ export default {
       possibleMatchesImages: [],
       errorMessage: "",
       timelineEntities: [],
-      scale: {
-        min: -500,
-        max: 500,
-        partition_length: 50
-      },
       currentYear: new Date().getFullYear(),
       customPerson: {
         name: "",
@@ -556,48 +389,17 @@ export default {
       this.customPerson = _.mapValues(this.customPerson, () => "");
       this.customPerson.birthEra = "BC";
       this.customPerson.deathEra = "BC";
+    },
+
+    log() {
     }
   },
 
   computed: {
+    ...mapState(["scale"]),
+    ...mapGetters(["zeroNotShown"]),
     orderedTimelineEntities() {
       return _.orderBy(this.timelineEntities, ["birthDate"]);
-    },
-    partitions() {
-      var partitions = [];
-      var num_partitions =
-        (this.scale.max - this.scale.min) / this.scale.partition_length;
-      for (var i = 0; i < num_partitions; i++) {
-        var partition_object = {};
-        if (i === 0) {
-          partition_object.feature = "first";
-        } else if (i === num_partitions - 1) {
-          partition_object.feature = "last";
-        } else {
-          partition_object.feature = "internal";
-        }
-        partition_object.value =
-          this.scale.min + i * this.scale.partition_length;
-        partitions.push(partition_object);
-      }
-      return partitions;
-    },
-    zeroNotShown() {
-      return (
-        this.scale.max > 0 &&
-        this.scale.min < 0 &&
-        -this.scale.min % this.scale.partition_length !== 0
-      );
-    },
-    indexPriorToZero() {
-      const isGtZero = element => element.value > 0;
-      var index = this.partitions.findIndex(isGtZero);
-      if (index > 0) {
-        return index - 1;
-      } else if (this.scale.max > 0) {
-        return this.partitions.length - 1;
-      }
-      return this.partitions.length;
     }
   }
 };
@@ -663,93 +465,6 @@ label {
   float: left;
   width: 50px;
   text-align: right;
-}
-
-#map {
-  margin-top: 10px;
-  height: auto;
-  width: 100%;
-}
-
-#map-top,
-#map-top-mid,
-#map-bottom-mid,
-#map-bottom,
-#values {
-  display: flex;
-}
-
-#map-top div {
-  height: 10px;
-  flex-basis: 100%;
-  display: flex;
-}
-
-#map-top-mid div {
-  height: 10px;
-  flex-basis: 100%;
-  border-bottom: 1px solid black;
-  display: flex;
-}
-
-#map-bottom-mid div {
-  height: 10px;
-  flex-basis: 100%;
-  display: flex;
-}
-
-#map-bottom div {
-  height: 10px;
-  flex-basis: 100%;
-  display: flex;
-}
-
-#values div {
-  flex-basis: 100%;
-  display: flex;
-}
-
-.zero-value {
-  border-right: 1px solid black;
-}
-
-.max-value {
-  justify-content: flex-end;
-}
-
-.first {
-  border-left: 2px solid black;
-  border-right: 1px solid transparent;
-}
-
-.first.mid {
-  border-right: 1px solid black;
-}
-
-.last {
-  border-right: 2px solid black;
-}
-
-.internal {
-  border-right: 1px solid transparent;
-}
-
-.internal.mid {
-  border-right: 1px solid black;
-}
-
-.timeline-bar {
-  height: 10px;
-  width: 100%;
-  display: flex;
-}
-
-.timeline-entity {
-  border-right: 1px solid transparent;
-}
-
-.alive {
-  border-right: 1px solid red;
 }
 
 #add-entity {
