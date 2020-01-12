@@ -18,9 +18,47 @@
         />
       </div>
     </div>
-    <div>
-      <input v-model="personName" v-on:keyup.enter="lookupPerson(personName)" ref="input" />
-      <button @click="lookupPerson">Add it!</button>
+    <div id="add-entity">
+      <div>
+        <input v-model="personName" v-on:keyup.enter="lookupPerson(personName)" ref="input" />
+        <button @click="lookupPerson(personName)">Add it!</button>
+      </div>
+      <div id="custom-entity">
+        <div>
+          Create your own person
+        </div>
+        <div>
+          <div>
+            <input id="custom-person-name" v-model="customPerson.name"/>
+            <label for="custom-person-name">Name</label>
+          </div>
+          <div>
+            <label for="custom-person-birthDate">Birth Date</label>
+            <input id="custom-person-birthDate" v-model="customPerson.birthDate">
+            <div>
+              <input type="radio" id="birthEra-BC" name="birthEra" value="BC" v-model="customPerson.birthEra">
+              <label for="birthEra-BC">BC</label>
+            </div>
+            <div>
+              <input type="radio" id="birthEra-AD" name="birthEra" value="AD" v-model="customPerson.birthEra">
+              <label for="birthEra-AD">AD</label>
+            </div>
+          </div>
+          <div>
+            <input id="custom-person-deathDate" v-model="customPerson.deathDate">
+            <label for="custom-person-deathDate">Death Date</label>
+            <div>
+              <input type="radio" id="deathEra-BC" name="deathEra" value="BC" v-model="customPerson.deathEra">
+              <label for="deathEra-BC">BC</label>
+            </div>
+            <div>
+              <input type="radio" id="deathEra-AD" name="deathEra" value="AD" v-model="customPerson.deathEra">
+              <label for="deathEra-AD">AD</label>
+            </div>
+          </div>
+          <button @click="addCustomPerson">Add custom person</button>
+        </div>
+      </div>
     </div>
     <div v-if="errorMessage" id="error">
       {{ errorMessage }}
@@ -259,7 +297,13 @@ export default {
         partition_length: 50
       },
       currentYear: new Date().getFullYear(),
-      golden_ratio_conjugate: 0.618033988749895
+      customPerson: {
+        name: "",
+        birthDate: "",
+        birthEra: "BC",
+        deathDate: "",
+        deathEra: "BC"
+      }
     };
   },
 
@@ -475,6 +519,43 @@ export default {
       people.forEach(person => {
         this.lookupPerson(person);
       });
+    },
+
+    addCustomPerson() {
+      var birthDate, birthYear, deathDate, deathYear, factor;
+
+      birthDate = new Date(this.customPerson.birthDate);
+      factor = (this.customPerson.birthEra === "BC") ? -1 : 1;
+      if (this.customPerson.birthDate && this.customPerson.birthDate.length <= 4) {
+        birthYear = factor * this.customPerson.birthDate;
+      } else if (birthDate.valueOf()) {
+        birthYear = factor * birthDate.getFullYear();
+      } else {
+        this.errorMessage = "Invalid or missing birth date";
+        return;
+      }
+
+      deathDate = new Date(this.customPerson.deathDate);
+      factor = (this.customPerson.deathEra === "BC") ? -1 : 1;
+      if (this.customPerson.deathDate && this.customPerson.deathDate.length <= 4) {
+        deathYear = factor * this.customPerson.deathDate;
+      } else if (deathDate.valueOf()) {
+        deathYear = factor * deathDate.getFullYear();
+      } else {
+        deathYear = this.currentYear;
+      }
+
+      this.addToTimeline({
+        name: this.customPerson.name,
+        birthDate: birthYear,
+        birthEra: this.customPerson.birthEra,
+        deathDate: deathYear,
+        deathEra: this.customPerson.deathEra,
+        colour: this.hsv_to_rgb(Math.random(), 0.5, 0.95)
+      });
+      this.customPerson = _.mapValues(this.customPerson, () => "");
+      this.customPerson.birthEra = "BC";
+      this.customPerson.deathEra = "BC";
     }
   },
 
@@ -669,5 +750,13 @@ label {
 
 .alive {
   border-right: 1px solid red;
+}
+
+#add-entity {
+  display: flex;
+}
+
+#custom-entity {
+  display: block;
 }
 </style>
