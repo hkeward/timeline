@@ -186,13 +186,20 @@ export default {
 
   computed: {
     ...mapState([
-      "entityName",
       "scale",
       "possibleMatches",
       "searchErrorMessage",
       "customEntity"
     ]),
-    ...mapGetters(["zeroNotShown", "orderedTimelineEntities"])
+    ...mapGetters(["zeroNotShown", "orderedTimelineEntities"]),
+    entityName: {
+      get() {
+        return this.$store.state.entityName;
+      },
+      set(name) {
+        this.$store.commit("UPDATE_ENTITY_NAME", name);
+      }
+    }
   }
 };
 </script>
