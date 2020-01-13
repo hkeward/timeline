@@ -46,10 +46,10 @@ export default {
 </script>
 
 <style>
-#legend {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  text-align: left;
+#legend input {
+  display: inline-block;
+  float: left;
+  width: 50px;
+  text-align: right;
 }
 </style>

@@ -8,6 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    menu_visible: false,
     entityName: "",
     scale: {
       min: -500,

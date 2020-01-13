@@ -1,5 +1,9 @@
 import _ from "lodash";
 
+const toggleMenu = ({ commit, state }) => {
+  commit("SET_MENU_VISIBILITY", !state.menu_visible);
+};
+
 const addToTimeline = ({ commit }, entity) => {
   commit("ADD_ENTITY", entity);
   commit("CLEAR_NAME");
@@ -210,6 +214,7 @@ const addCustomEntity = ({ state, dispatch }) => {
 };
 
 export default {
+  toggleMenu,
   addToTimeline,
   lookupPerson,
   parseLifespan,

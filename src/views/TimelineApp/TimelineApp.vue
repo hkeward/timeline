@@ -1,23 +1,28 @@
 <template>
-  <div>
-    <div id="header">
-      <div>
-        <h1 id="title">
-          Hi this is a timeline app
-        </h1>
-      </div>
-      <timeline-legend />
-    </div>
-    <add-entity />
-    <timeline />
-    <timeline-entities />
-    <possible-matches />
-    <div>
-      <button @click="populateWithExamples">
-        Populate with some examples!
+  <div id="root">
+    <div id="menu-bar">
+      <button @click="toggleMenu">
+        [{{ menu_visible ? "&lt;" : "&gt;" }}]
       </button>
+      <div
+        id="menu"
+        :style="{ visibility: menu_visible ? 'visible' : 'hidden' }"
+      >
+        <timeline-legend />
+      </div>
     </div>
-    <list-entities />
+    <div id="timeline">
+      <add-entity />
+      <timeline />
+      <timeline-entities />
+      <possible-matches />
+      <div>
+        <button @click="populateWithExamples">
+          Populate with some examples!
+        </button>
+      </div>
+      <list-entities />
+    </div>
   </div>
 </template>
 
@@ -28,6 +33,7 @@ import TimelineEntities from "./TimelineEntities.vue";
 import AddEntity from "./AddEntity";
 import PossibleMatches from "./PossibleMatches";
 import ListEntities from "./ListEntities.vue";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "TimelineApp",
@@ -41,7 +47,12 @@ export default {
     ListEntities
   },
 
+  computed: {
+    ...mapState(["menu_visible"])
+  },
+
   methods: {
+    ...mapActions(["toggleMenu"]),
     populateWithExamples() {
       const people = [
         "Socrates",
@@ -85,15 +96,6 @@ table {
   margin-right: auto;
 }
 
-#header {
-  display: flex;
-  justify-content: center;
-}
-
-#title {
-  display: flex;
-}
-
 label {
   display: inline-block;
   float: left;
@@ -103,10 +105,26 @@ label {
   padding-right: 5px;
 }
 
-#legend input {
-  display: inline-block;
-  float: left;
-  width: 50px;
-  text-align: right;
+#root {
+  display: flex;
+}
+
+#menu-bar {
+  flex-basis: 2%;
+  margin-right: 0.5%;
+  border-right: 2px solid black;
+  text-align: left;
+}
+
+#menu {
+  position: absolute;
+  top: 2%;
+  left: 4%;
+  background: white;
+  border: 2px solid black;
+}
+
+#timeline {
+  flex-basis: 100%;
 }
 </style>

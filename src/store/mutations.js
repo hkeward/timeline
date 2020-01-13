@@ -1,3 +1,7 @@
+const SET_MENU_VISIBILITY = (state, is_visible) => {
+  state.menu_visible = is_visible;
+};
+
 const ADD_ENTITY = (state, entity) => {
   state.timelineEntities.push(entity);
 };
@@ -55,6 +59,7 @@ const SET_RANDOM_COLOUR = (state, rgb) => {
 };
 
 export default {
+  SET_MENU_VISIBILITY,
   ADD_ENTITY,
   SET_ENTITY_NAME,
   SET_SCALE_MIN,
