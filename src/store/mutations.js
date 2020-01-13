@@ -2,8 +2,20 @@ const ADD_ENTITY = (state, entity) => {
   state.timelineEntities.push(entity);
 };
 
-const UPDATE_ENTITY_NAME = (state, name) => {
+const SET_ENTITY_NAME = (state, name) => {
   state.entityName = name;
+};
+
+const SET_SCALE_MIN = (state, value) => {
+  state.scale.min = value;
+};
+
+const SET_SCALE_MAX = (state, value) => {
+  state.scale.max = value;
+};
+
+const SET_SCALE_PARTITION_LENGTH = (state, value) => {
+  state.scale.partition_length = value;
 };
 
 const CLEAR_NAME = state => {
@@ -18,15 +30,43 @@ const CLEAR_MATCHES = state => {
   state.possibleMatches = [];
 };
 
+const SET_CUSTOM_NAME = (state, name) => {
+  state.customEntity.name = name;
+};
+
+const SET_CUSTOM_BIRTH_DATE = (state, date) => {
+  state.customEntity.birthDate = date;
+};
+
+const SET_CUSTOM_BIRTH_ERA = (state, era) => {
+  state.customEntity.birthEra = era;
+};
+
+const SET_CUSTOM_DEATH_DATE = (state, date) => {
+  state.customEntity.deathDate = date;
+};
+
+const SET_CUSTOM_DEATH_ERA = (state, era) => {
+  state.customEntity.deathEra = era;
+};
+
 const SET_RANDOM_COLOUR = (state, rgb) => {
   state.random_colour = rgb;
 };
 
 export default {
   ADD_ENTITY,
-  UPDATE_ENTITY_NAME,
+  SET_ENTITY_NAME,
+  SET_SCALE_MIN,
+  SET_SCALE_MAX,
+  SET_SCALE_PARTITION_LENGTH,
   CLEAR_NAME,
   SET_MATCHES,
   CLEAR_MATCHES,
+  SET_CUSTOM_NAME,
+  SET_CUSTOM_BIRTH_DATE,
+  SET_CUSTOM_BIRTH_ERA,
+  SET_CUSTOM_DEATH_DATE,
+  SET_CUSTOM_DEATH_ERA,
   SET_RANDOM_COLOUR
 };

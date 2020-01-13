@@ -8,13 +8,13 @@
       </div>
       <div id="legend">
         <label for="scale-min">Scale minimum</label>
-        <input id="scale-min" v-model.lazy.number="scale.min" />
+        <input id="scale-min" v-model.lazy.number="scale_min" />
         <label for="scale-max">Scale maximum</label>
-        <input id="scale-max" v-model.lazy.number="scale.max" />
+        <input id="scale-max" v-model.lazy.number="scale_max" />
         <label for="scale-partition-length">Partition length</label>
         <input
           id="scale-partition-length"
-          v-model.lazy.number="scale.partition_length"
+          v-model.lazy.number="scale_partition_length"
         />
       </div>
     </div>
@@ -33,14 +33,14 @@
         </div>
         <div>
           <div>
-            <input id="custom-person-name" v-model="customEntity.name" />
+            <input id="custom-person-name" v-model="custom_name" />
             <label for="custom-person-name">Name</label>
           </div>
           <div>
             <label for="custom-person-birthDate">Birth Date</label>
             <input
               id="custom-person-birthDate"
-              v-model="customEntity.birthDate"
+              v-model="custom_birth_date"
             />
             <div>
               <input
@@ -48,7 +48,7 @@
                 id="birthEra-BC"
                 name="birthEra"
                 value="BC"
-                v-model="customEntity.birthEra"
+                v-model="custom_birth_era"
               />
               <label for="birthEra-BC">BC</label>
             </div>
@@ -58,7 +58,7 @@
                 id="birthEra-AD"
                 name="birthEra"
                 value="AD"
-                v-model="customEntity.birthEra"
+                v-model="custom_birth_era"
               />
               <label for="birthEra-AD">AD</label>
             </div>
@@ -66,7 +66,7 @@
           <div>
             <input
               id="custom-person-deathDate"
-              v-model="customEntity.deathDate"
+              v-model="custom_death_date"
             />
             <label for="custom-person-deathDate">Death Date</label>
             <div>
@@ -75,7 +75,7 @@
                 id="deathEra-BC"
                 name="deathEra"
                 value="BC"
-                v-model="customEntity.deathEra"
+                v-model="custom_death_era"
               />
               <label for="deathEra-BC">BC</label>
             </div>
@@ -85,7 +85,7 @@
                 id="deathEra-AD"
                 name="deathEra"
                 value="AD"
-                v-model="customEntity.deathEra"
+                v-model="custom_death_era"
               />
               <label for="deathEra-AD">AD</label>
             </div>
@@ -156,12 +156,8 @@ export default {
 
   methods: {
     ...mapActions([
-      "addToTimeline",
       "lookupPerson",
       "parseLifespan",
-      "showOptions",
-      "clearOptions",
-      "hsv_to_rgb",
       "addCustomEntity"
     ]),
 
@@ -185,19 +181,78 @@ export default {
   },
 
   computed: {
-    ...mapState([
-      "scale",
-      "possibleMatches",
-      "searchErrorMessage",
-      "customEntity"
-    ]),
+    ...mapState(["possibleMatches", "searchErrorMessage"]),
     ...mapGetters(["zeroNotShown", "orderedTimelineEntities"]),
     entityName: {
       get() {
         return this.$store.state.entityName;
       },
       set(name) {
-        this.$store.commit("UPDATE_ENTITY_NAME", name);
+        this.$store.commit("SET_ENTITY_NAME", name);
+      }
+    },
+    scale_min: {
+      get() {
+        return this.$store.state.scale.min;
+      },
+      set(value) {
+        this.$store.commit("SET_SCALE_MIN", value);
+      }
+    },
+    scale_max: {
+      get() {
+        return this.$store.state.scale.max;
+      },
+      set(value) {
+        this.$store.commit("SET_SCALE_MAX", value);
+      }
+    },
+    scale_partition_length: {
+      get() {
+        return this.$store.state.scale.partition_length;
+      },
+      set(value) {
+        this.$store.commit("SET_SCALE_PARTITION_LENGTH", value);
+      }
+    },
+    custom_name: {
+      get() {
+        return this.$store.state.customEntity.name;
+      },
+      set(name) {
+        this.$store.commit("SET_CUSTOM_NAME", name);
+      }
+    },
+    custom_birth_date: {
+      get() {
+        return this.$store.state.customEntity.birthDate;
+      },
+      set(date) {
+        this.$store.commit("SET_CUSTOM_BIRTH_DATE", date);
+      }
+    },
+    custom_birth_era: {
+      get() {
+        return this.$store.state.customEntity.birthEra;
+      },
+      set(era) {
+        this.$store.commit("SET_CUSTOM_BIRTH_ERA", era);
+      }
+    },
+    custom_death_date: {
+      get() {
+        return this.$store.state.customEntity.deathDate;
+      },
+      set(date) {
+        this.$store.commit("SET_CUSTOM_DEATH_DATE", date);
+      }
+    },
+    custom_death_era: {
+      get() {
+        return this.$store.state.customEntity.deathEra;
+      },
+      set(era) {
+        this.$store.commit("SET_CUSTOM_DEATH_ERA", era);
       }
     }
   }

@@ -99,7 +99,7 @@ const parseLifespan = async ({ state, dispatch }, entity) => {
   } catch (error) {
     state.searchErrorMessage("Error searching Wikidata");
   }
-  dispatch("clearOptions");
+  dispatch("clearMatches");
 };
 
 const showOptions = ({ commit }, searchResults) => {
@@ -112,7 +112,7 @@ const showOptions = ({ commit }, searchResults) => {
   commit("SET_MATCHES", possibleMatches);
 };
 
-const clearOptions = ({ commit }) => {
+const clearMatches = ({ commit }) => {
   commit("CLEAR_MATCHES");
 };
 
@@ -215,7 +215,7 @@ export default {
   lookupPerson,
   parseLifespan,
   showOptions,
-  clearOptions,
+  clearMatches,
   hsv_to_rgb,
   addCustomEntity
 };
