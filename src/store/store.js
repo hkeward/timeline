@@ -2,16 +2,30 @@ import Vue from "vue";
 import Vuex from "vuex";
 import mutations from "./mutations";
 import actions from "./actions";
+import _ from "lodash";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    entityName: "",
     scale: {
       min: -500,
       max: 500,
       partition_length: 50
-    }
+    },
+    currentYear: new Date().getFullYear(),
+    timelineEntities: [],
+    possibleMatches: [],
+    searchErrorMessage: "",
+    customEntity: {
+      name: "",
+      birthDate: "",
+      birthEra: "BC",
+      deathDate: "",
+      deathEra: "BC"
+    },
+    random_colour: "255,255,255"
   },
   getters: {
     zeroNotShown: state => {
@@ -49,6 +63,9 @@ export default new Vuex.Store({
         return getters.partitions.length - 1;
       }
       return getters.partitions.length;
+    },
+    orderedTimelineEntities: state => {
+      return _.orderBy(state.timelineEntities, ["birthDate"]);
     }
   },
   mutations,
