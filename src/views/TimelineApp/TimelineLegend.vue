@@ -5,7 +5,10 @@
     <label for="scale-max">Scale maximum</label>
     <input id="scale-max" v-model.lazy.number="scale_max" />
     <label for="scale-partition-length">Partition length</label>
-    <input id="scale-partition-length" v-model.lazy.number="scale_partition_length"/>
+    <input
+      id="scale-partition-length"
+      v-model.lazy.number="scale_partition_length"
+    />
   </div>
 </template>
 

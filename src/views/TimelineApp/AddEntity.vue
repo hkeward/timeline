@@ -2,12 +2,14 @@
   <div>
     <div id="add-entity">
       <div>
+        <label for="entity-search">Search</label>
         <input
           v-model="entityName"
-          v-on:keyup.enter="lookupPerson(entityName)"
+          id="entity-search"
+          v-on:keyup.enter="lookupPerson"
           ref="input"
         />
-        <button @click="lookupPerson(entityName)">Add it!</button>
+        <button @click="lookupPerson">Add it!</button>
       </div>
       <div id="custom-entity">
         <div>
@@ -15,12 +17,20 @@
         </div>
         <div>
           <div>
-            <input id="custom-person-name" v-model="custom_name" />
             <label for="custom-person-name">Name</label>
+            <input
+              id="custom-person-name"
+              v-model="custom_name"
+              v-on:keyup.enter="addCustomEntity"
+            />
           </div>
           <div>
             <label for="custom-person-birthDate">Birth Date</label>
-            <input id="custom-person-birthDate" v-model="custom_birth_date" />
+            <input
+              id="custom-person-birthDate"
+              v-model="custom_birth_date"
+              v-on:keyup.enter="addCustomEntity"
+            />
             <div>
               <input
                 type="radio"
@@ -43,7 +53,11 @@
             </div>
           </div>
           <div>
-            <input id="custom-person-deathDate" v-model="custom_death_date" />
+            <input
+              id="custom-person-deathDate"
+              v-model="custom_death_date"
+              v-on:keyup.enter="addCustomEntity"
+            />
             <label for="custom-person-deathDate">Death Date</label>
             <div>
               <input

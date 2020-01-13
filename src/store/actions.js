@@ -5,8 +5,7 @@ const addToTimeline = ({ commit }, entity) => {
   commit("CLEAR_NAME");
 };
 
-const lookupPerson = async ({ state, dispatch }, providedEntity) => {
-  const entity = providedEntity;
+const lookupPerson = async ({ state, dispatch }) => {
   state.searchErrorMessage = "";
   const url = new URL("https://www.wikidata.org/w/api.php");
   const params = {
@@ -14,20 +13,20 @@ const lookupPerson = async ({ state, dispatch }, providedEntity) => {
     action: "wbsearchentities",
     language: "en",
     format: "json",
-    search: entity
+    search: state.entityName
   };
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
   try {
     const response = await fetch(url);
     const data = await response;
     const searchResults = await data.json();
-    if (entity === searchResults.search[0].label) {
+    if (state.entityName === searchResults.search[0].label) {
       dispatch("parseLifespan", searchResults.search[0]);
     } else {
       dispatch("showOptions", searchResults.search);
     }
   } catch (error) {
-    state.searchErrorMessage = `No results found for "${providedEntity}"`;
+    state.searchErrorMessage = `No results found for "${state.entityName}"`;
   }
 };
 
