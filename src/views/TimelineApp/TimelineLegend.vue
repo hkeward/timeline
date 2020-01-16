@@ -1,19 +1,19 @@
 <template>
-  <div id="legend">
-    <div>
-      <label for="scale-min">Scale minimum</label>
+  <div>
+    <div class="legend">
+      <label for="scale-min" class="flex-left">Scale minimum</label>
       <input id="scale-min" v-model.lazy.number="scale_min" />
+      <div class="flex-right"></div>
     </div>
-    <div>
-      <label for="scale-max">Scale maximum</label>
+    <div class="legend">
+      <label for="scale-max" class="flex-left">Scale maximum</label>
       <input id="scale-max" v-model.lazy.number="scale_max" />
+      <div class="flex-right"></div>
     </div>
-    <div>
-      <label for="scale-partition-length">Partition length</label>
-      <input
-        id="scale-partition-length"
-        v-model.lazy.number="scale_partition_length"
-      />
+    <div class="legend">
+      <label for="scale-partition-length" class="flex-left">Partition length</label>
+      <input id="scale-partition-length" v-model.lazy.number="scale_partition_length" />
+      <div class="flex-right"></div>
     </div>
   </div>
 </template>
@@ -51,4 +51,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.legend {
+  display: flex;
+}
+</style>

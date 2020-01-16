@@ -2,13 +2,14 @@
   <div>
     <div>
       <div id="add-entity">
-        <label for="entity-search">Name of individual</label>
+        <label for="entity-search" class="flex-left">Search by name</label>
         <input
           v-model="entityName"
           id="entity-search"
           v-on:keyup.enter="lookupPerson"
           ref="input"
         />
+        <div class="flex-right"></div>
       </div>
       <div>
         <button @click="lookupPerson">Search</button>
@@ -47,9 +48,11 @@ export default {
 <style>
 #add-entity {
   padding-bottom: 10px;
+  display: flex;
 }
 
 #error {
   color: darkred;
+  padding-top: 10px;
 }
 </style>
