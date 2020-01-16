@@ -4,12 +4,17 @@ const toggleMenu = ({ commit, state }) => {
   commit("SET_MENU_VISIBILITY", !state.menu_visible);
 };
 
+const changeAdvancedTab = ({commit}, new_tab) => {
+  commit("SET_ADVANCED_TAB", new_tab);
+};
+
 const addToTimeline = ({ commit }, entity) => {
   commit("ADD_ENTITY", entity);
   commit("CLEAR_NAME");
 };
 
-const lookupPerson = async ({ state, dispatch }) => {
+const lookupPerson = async ({ state, dispatch }, providedEntity) => {
+  const entity = state.entityName || providedEntity;
   state.searchErrorMessage = "";
   const url = new URL("https://www.wikidata.org/w/api.php");
   const params = {
@@ -17,20 +22,20 @@ const lookupPerson = async ({ state, dispatch }) => {
     action: "wbsearchentities",
     language: "en",
     format: "json",
-    search: state.entityName
+    search: entity
   };
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
   try {
     const response = await fetch(url);
     const data = await response;
     const searchResults = await data.json();
-    if (state.entityName === searchResults.search[0].label) {
+    if (entity === searchResults.search[0].label) {
       dispatch("parseLifespan", searchResults.search[0]);
     } else {
       dispatch("showOptions", searchResults.search);
     }
   } catch (error) {
-    state.searchErrorMessage = `No results found for "${state.entityName}"`;
+    state.searchErrorMessage = `No results found for "${entity}"`;
   }
 };
 
@@ -215,6 +220,7 @@ const addCustomEntity = ({ state, dispatch }) => {
 
 export default {
   toggleMenu,
+  changeAdvancedTab,
   addToTimeline,
   lookupPerson,
   parseLifespan,

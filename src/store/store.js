@@ -9,6 +9,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     menu_visible: false,
+    advanced_tab: "search",
     entityName: "",
     scale: {
       min: -500,

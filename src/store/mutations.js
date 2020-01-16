@@ -2,6 +2,10 @@ const SET_MENU_VISIBILITY = (state, is_visible) => {
   state.menu_visible = is_visible;
 };
 
+const SET_ADVANCED_TAB = (state, new_tab) => {
+  state.advanced_tab = new_tab;
+};
+
 const ADD_ENTITY = (state, entity) => {
   state.timelineEntities.push(entity);
 };
@@ -60,6 +64,7 @@ const SET_RANDOM_COLOUR = (state, rgb) => {
 
 export default {
   SET_MENU_VISIBILITY,
+  SET_ADVANCED_TAB,
   ADD_ENTITY,
   SET_ENTITY_NAME,
   SET_SCALE_MIN,
