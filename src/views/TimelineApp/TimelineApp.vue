@@ -2,7 +2,7 @@
   <div id="root">
     <div id="header">
       <div class="left">
-        <button id="hamburger" @click="toggleMenu">
+        <button id="hamburger" @click="toggleMenu" :class="{ 'active' : menu_visible }">
           <font-awesome-icon icon="bars"></font-awesome-icon>
         </button>
       </div>
@@ -20,19 +20,35 @@
       :style="{ visibility: menu_visible ? 'visible' : 'hidden' }"
     >
       <div id="advanced-menu">
-        <div id="menu-search"><button @click="changeAdvancedTab('search')">SEARCH</button></div>
-        <div id="menu-custom" @click="changeAdvancedTab('custom')"><button>ADD CUSTOM</button></div>
-        <div id="menu-scale" @click="changeAdvancedTab('scale')"><button>CHANGE SCALE</button></div>
-        <div id="menu-entities" @click="changeAdvancedTab('entities')"><button>ENTITIES</button></div>
+        <div id="menu-search">
+          <button @click="changeAdvancedTab('search')" :class="{ 'active' : advanced_tab === 'search' }">
+            SEARCH
+          </button>
+        </div>
+        <div id="menu-custom">
+          <button @click="changeAdvancedTab('custom')" :class="{ 'active' : advanced_tab === 'custom' }">
+            ADD CUSTOM
+          </button>
+        </div>
+        <div id="menu-scale">
+          <button @click="changeAdvancedTab('scale')" :class="{ 'active' : advanced_tab === 'scale' }">
+            CHANGE SCALE
+          </button>
+        </div>
+        <div id="menu-entities">
+          <button @click="changeAdvancedTab('entities')" :class="{ 'active' : advanced_tab === 'entities' }">
+            ENTITIES
+          </button>
+        </div>
       </div>
       <div id="advanced-content">
         <div v-if="advanced_tab === 'search'">
           <search-entity />
           <possible-matches />
         </div>
-        <custom-entity v-else-if="advanced_tab === 'custom'" />
-        <timeline-legend v-else-if="advanced_tab === 'scale'" />
-        <list-entities v-else-if="advanced_tab === 'entities'" />
+        <custom-entity v-else-if="advanced_tab === 'custom'"/>
+        <timeline-legend v-else-if="advanced_tab === 'scale'"/>
+        <list-entities v-else-if="advanced_tab === 'entities'"/>
       </div>
     </div>
     <div id="timeline">
@@ -185,5 +201,7 @@ h1 {
   margin: 20px 5px;
 }
 
-#timeline-entities:
+.active {
+  background: black;
+}
 </style>
