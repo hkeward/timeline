@@ -106,6 +106,7 @@ export default {
 #map-bottom,
 #values {
   display: flex;
+  color: black;
 }
 
 #map-top div {

@@ -1,66 +1,29 @@
 <template>
   <div>
     <div id="custom-entity">
-      <div>
-        <div>
-          <label for="custom-person-name">Name</label>
-          <input
-            id="custom-person-name"
-            v-model="custom_name"
-            v-on:keyup.enter="addCustomEntity"
-          />
+      <div id="custom-top">
+        <label for="custom-person-name" class="custom-left">Name</label>
+        <input id="custom-person-name" v-model="custom_name" v-on:keyup.enter="addCustomEntity" />
+        <div class="custom-right"></div>
+      </div>
+      <div id="custom-mid">
+        <label for="custom-person-birthDate" class="custom-left">Birth Date</label>
+        <input id="custom-person-birthDate" v-model="custom_birth_date" v-on:keyup.enter="addCustomEntity" />
+        <div class="custom-right">
+          <input type="radio" id="birthEra-BC" name="birthEra" value="BC" v-model="custom_birth_era" />
+          <label for="birthEra-BC">BC</label>
+          <input type="radio" id="birthEra-AD" name="birthEra" value="AD" v-model="custom_birth_era" />
+          <label for="birthEra-AD">AD</label>
         </div>
-        <div>
-          <div id="birth">
-            <label for="custom-person-birthDate">Birth Date</label>
-            <input
-              id="custom-person-birthDate"
-              v-model="custom_birth_date"
-              v-on:keyup.enter="addCustomEntity"
-            />
-            <input
-              type="radio"
-              id="birthEra-BC"
-              name="birthEra"
-              value="BC"
-              v-model="custom_birth_era"
-            />
-            <label for="birthEra-BC">BC</label>
-            <input
-              type="radio"
-              id="birthEra-AD"
-              name="birthEra"
-              value="AD"
-              v-model="custom_birth_era"
-            />
-            <label for="birthEra-AD">AD</label>
-          </div>
-        </div>
-        <div>
-          <div id="death">
-            <label for="custom-person-deathDate">Death Date</label>
-            <input
-              id="custom-person-deathDate"
-              v-model="custom_death_date"
-              v-on:keyup.enter="addCustomEntity"
-            />
-            <input
-              type="radio"
-              id="deathEra-BC"
-              name="deathEra"
-              value="BC"
-              v-model="custom_death_era"
-            />
-            <label for="deathEra-BC">BC</label>
-            <input
-              type="radio"
-              id="deathEra-AD"
-              name="deathEra"
-              value="AD"
-              v-model="custom_death_era"
-            />
-            <label for="deathEra-AD">AD</label>
-          </div>
+      </div>
+      <div id="custom-bottom">
+        <label for="custom-person-deathDate" class="custom-left">Death Date</label>
+        <input id="custom-person-deathDate" v-model="custom_death_date" v-on:keyup.enter="addCustomEntity" />
+        <div class="custom-right">
+          <input type="radio" id="deathEra-BC" name="deathEra" value="BC" v-model="custom_death_era" />
+          <label for="deathEra-BC">BC</label>
+          <input type="radio" id="deathEra-AD" name="deathEra" value="AD" v-model="custom_death_era" />
+          <label for="deathEra-AD">AD</label>
         </div>
       </div>
     </div>
@@ -125,13 +88,23 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+input {
+  flex: 1;
+}
+
 #custom-entity {
   padding-bottom: 10px;
 }
 
-#birth,
-#death {
-  display: inline-block;
+#custom-top,
+#custom-mid,
+#custom-bottom {
+  display: flex;
+}
+
+.custom-left,
+.custom-right {
+  flex: 1;
 }
 </style>

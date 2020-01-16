@@ -147,7 +147,7 @@ h1 {
   height: auto;
   background: #2c3e50;
   color: antiquewhite;
-  border-bottom: 3px solid antiquewhite;
+  border-bottom: 2px solid antiquewhite;
 }
 
 .left {
