@@ -46,9 +46,9 @@
           <search-entity />
           <possible-matches />
         </div>
-        <custom-entity v-else-if="advanced_tab === 'custom'"/>
-        <timeline-legend v-else-if="advanced_tab === 'scale'"/>
-        <list-entities v-else-if="advanced_tab === 'entities'"/>
+        <custom-entity v-else-if="advanced_tab === 'custom'" />
+        <timeline-legend v-else-if="advanced_tab === 'scale'" />
+        <list-entities v-else-if="advanced_tab === 'entities'" />
       </div>
     </div>
     <div id="timeline">
@@ -109,9 +109,6 @@ export default {
 </script>
 
 <style>
-h3 {
-  margin: 40px 0 0;
-}
 ul {
   list-style-type: none;
   padding: 0;
@@ -150,7 +147,6 @@ button:focus {
 button:hover {
   cursor: pointer;
   color: cornflowerblue;
-  transition: 0.3s;
 }
 
 h1 {
@@ -203,5 +199,9 @@ h1 {
 
 .active {
   background: black;
+}
+
+#timeline-entities {
+  padding-top: 15px;
 }
 </style>

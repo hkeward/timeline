@@ -27,7 +27,7 @@ export default new Vuex.Store({
       deathDate: "",
       deathEra: "BC"
     },
-    random_colour: "255,255,255"
+    random_colour: "000000"
   },
   getters: {
     zeroNotShown: state => {

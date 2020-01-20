@@ -62,6 +62,14 @@ const SET_RANDOM_COLOUR = (state, rgb) => {
   state.random_colour = rgb;
 };
 
+const TOGGLE_ENTITY_INFO = (state, entity_index) => {
+  state.timelineEntities[entity_index].advanced_info_expanded = !state.timelineEntities[entity_index].advanced_info_expanded;
+};
+
+const SET_ENTITY_COLOUR = (state, { index, colour }) => {
+  state.timelineEntities[index].colour = colour;
+};
+
 export default {
   SET_MENU_VISIBILITY,
   SET_ADVANCED_TAB,
@@ -78,5 +86,7 @@ export default {
   SET_CUSTOM_BIRTH_ERA,
   SET_CUSTOM_DEATH_DATE,
   SET_CUSTOM_DEATH_ERA,
-  SET_RANDOM_COLOUR
+  SET_RANDOM_COLOUR,
+  TOGGLE_ENTITY_INFO,
+  SET_ENTITY_COLOUR
 };

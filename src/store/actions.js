@@ -4,13 +4,8 @@ const toggleMenu = ({ commit, state }) => {
   commit("SET_MENU_VISIBILITY", !state.menu_visible);
 };
 
-const changeAdvancedTab = ({commit}, new_tab) => {
+const changeAdvancedTab = ({ commit }, new_tab) => {
   commit("SET_ADVANCED_TAB", new_tab);
-};
-
-const addToTimeline = ({ commit }, entity) => {
-  commit("ADD_ENTITY", entity);
-  commit("CLEAR_NAME");
 };
 
 const lookupPerson = async ({ state, dispatch }, providedEntity) => {
@@ -39,7 +34,7 @@ const lookupPerson = async ({ state, dispatch }, providedEntity) => {
   }
 };
 
-const parseLifespan = async ({ state, dispatch }, entity) => {
+const parseLifespan = async ({ state, commit, dispatch }, entity) => {
   const entityId = entity.id;
   const url = new URL("https://www.wikidata.org/w/api.php");
   const params = {
@@ -88,16 +83,18 @@ const parseLifespan = async ({ state, dispatch }, entity) => {
           deathEra = deathDate < 0 ? "BC" : "AD";
         }
 
-        dispatch("hsv_to_rgb");
+        dispatch("hsv_to_hex");
 
-        dispatch("addToTimeline", {
+        commit("ADD_ENTITY", {
           name: entity.label,
           birthDate: birthDate,
           birthEra: birthEra,
           deathDate: deathDate,
           deathEra: deathEra,
-          colour: state.random_colour
+          colour: state.random_colour,
+          advanced_info_expanded: false
         });
+        commit("CLEAR_NAME");
         // TODO how do I do this?
         // this.$refs.input.focus();
       } else {
@@ -125,7 +122,7 @@ const clearMatches = ({ commit }) => {
 };
 
 // https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
-const hsv_to_rgb = ({ commit }) => {
+const hsv_to_hex = ({ commit }) => {
   let h = Math.random();
   let s = 0.5;
   let v = 0.95;
@@ -160,18 +157,17 @@ const hsv_to_rgb = ({ commit }) => {
     g = p;
     b = q;
   }
-  const rgb = Math.trunc(r * 256)
-    .toString()
-    .concat(
-      ",",
-      Math.trunc(g * 256).toString(),
-      ",",
-      Math.trunc(b * 256).toString()
-    );
-  commit("SET_RANDOM_COLOUR", rgb);
+  r = Math.trunc(r * 256).toString(16);
+  r = r.length < 2 ? "0" + r : r;
+  g = Math.trunc(g * 256).toString(16);
+  g = g.length < 2 ? "0" + g : g;
+  b = Math.trunc(b * 256).toString(16);
+  b = b.length < 2 ? "0" + b : b;
+  const hex = "#" + r + g + b;
+  commit("SET_RANDOM_COLOUR", hex);
 };
 
-const addCustomEntity = ({ state, dispatch }) => {
+const addCustomEntity = ({ state, commit, dispatch }) => {
   let birthDate, birthYear, deathDate, deathYear, factor;
 
   birthDate = new Date(state.customEntity.birthDate);
@@ -201,16 +197,18 @@ const addCustomEntity = ({ state, dispatch }) => {
     deathYear = state.currentYear;
   }
 
-  dispatch("hsv_to_rgb");
+  dispatch("hsv_to_hex");
 
-  dispatch("addToTimeline", {
+  commit("ADD_ENTITY", {
     name: state.customEntity.name,
     birthDate: birthYear,
     birthEra: state.customEntity.birthEra,
     deathDate: deathYear,
     deathEra: state.customEntity.deathEra,
-    colour: state.random_colour
+    colour: state.random_colour,
+    advanced_info_expanded: false
   });
+
   // TODO how do I do this
   // this.$refs.input.focus();
   state.customEntity = _.mapValues(state.customEntity, () => "");
@@ -218,14 +216,18 @@ const addCustomEntity = ({ state, dispatch }) => {
   state.customEntity.deathEra = "BC";
 };
 
+const toggleEntityInfo = ({ commit }, entity_index) => {
+  commit("TOGGLE_ENTITY_INFO", entity_index);
+};
+
 export default {
   toggleMenu,
   changeAdvancedTab,
-  addToTimeline,
   lookupPerson,
   parseLifespan,
   showOptions,
   clearMatches,
-  hsv_to_rgb,
-  addCustomEntity
+  hsv_to_hex,
+  addCustomEntity,
+  toggleEntityInfo
 };

@@ -21,7 +21,7 @@
                 ((entity.deathDate - scale.min) / (scale.max - scale.min)) *
                   100 +
                 '%',
-              background: 'rgb(' + entity.colour + ')'
+              background: entity.colour
             }"
           ></div>
           <div
@@ -30,7 +30,7 @@
             class="timeline-entity"
             :style="{
               width: 100 + '%',
-              background: 'rgb(' + entity.colour + ')'
+              background: entity.colour
             }"
           ></div>
         </div>
@@ -60,7 +60,7 @@
                   (scale.max - scale.min)) *
                   100 +
                 '%',
-              background: 'rgb(' + entity.colour + ')'
+              background: entity.colour
             }"
           ></div>
           <div
@@ -73,7 +73,7 @@
                 ((entity.birthDate - scale.min) / (scale.max - scale.min)) *
                   100 +
                 '%',
-              background: 'rgb(' + entity.colour + ')'
+              background: entity.colour
             }"
           ></div>
           <!--            If deathDate isn't defined, assume they're still alive -->
@@ -86,7 +86,7 @@
                 ((currentYear - entity.birthDate) / (scale.max - scale.min)) *
                   100 +
                 '%',
-              background: 'rgb(' + entity.colour + ')'
+              background: entity.colour
             }"
           ></div>
         </div>
@@ -102,7 +102,7 @@ export default {
   name: "TimelineEntities",
 
   computed: {
-    ...mapState(["scale"]),
+    ...mapState(["scale", "currentYear"]),
     ...mapGetters(["orderedTimelineEntities"])
   }
 };
