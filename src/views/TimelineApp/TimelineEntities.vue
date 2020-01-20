@@ -114,7 +114,7 @@ export default {
 }
 
 .timeline-bar {
-  height: 10px;
+  height: 13px;
   width: 100%;
   display: flex;
 }

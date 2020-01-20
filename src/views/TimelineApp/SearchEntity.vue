@@ -52,7 +52,7 @@ export default {
 }
 
 #error {
-  color: darkred;
+  color: #ff7780;
   padding-top: 10px;
 }
 </style>

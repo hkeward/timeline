@@ -41,7 +41,7 @@
           </button>
         </div>
       </div>
-      <div id="advanced-content">
+      <div id="advanced-content" :style="{ width: menu_width + 'px' }">
         <div v-if="advanced_tab === 'search'">
           <search-entity />
           <possible-matches />
@@ -81,6 +81,12 @@ export default {
     ListEntities
   },
 
+  data() {
+    return {
+      menu_width: 200
+    };
+  },
+
   computed: {
     ...mapState(["menu_visible", "advanced_tab"])
   },
@@ -103,7 +109,17 @@ export default {
       people.forEach(person => {
         this.$store.dispatch("lookupPerson", person);
       });
+    },
+    setMenuWidth() {
+      const advanced_menu_div = document.getElementById("advanced-menu");
+      if (advanced_menu_div) {
+        this.menu_width = advanced_menu_div.offsetWidth;
+      }
     }
+  },
+
+  mounted() {
+    this.setMenuWidth();
   }
 };
 </script>
@@ -156,7 +172,6 @@ h1 {
 
 #header {
   display: flex;
-  height: auto;
   background: #2c3e50;
   color: antiquewhite;
   border-bottom: 2px solid antiquewhite;
@@ -177,9 +192,14 @@ h1 {
 #advanced {
   position: fixed;
   background: #66748c;
-  height: 100%;
+  height: 90%;
   z-index: 1;
   overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#advanced::-webkit-scrollbar {
+  width: 0 !important;
 }
 
 #advanced-menu {
@@ -189,7 +209,7 @@ h1 {
 }
 
 #advanced-content {
-  padding-top: 10px;
+  padding: 10px 0;
 }
 
 #timeline {

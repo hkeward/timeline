@@ -91,6 +91,7 @@ export default {
   padding: 10px;
   display: flex;
   justify-content: space-between;
+  border-radius: 0 0 5px 5px;
 }
 
 .color-select {

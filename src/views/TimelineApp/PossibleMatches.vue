@@ -1,18 +1,12 @@
 <template>
   <div>
-    <div v-if="possibleMatches">
-      <table>
-        <tr>
-          <td v-for="(match, index) in possibleMatches" v-bind:key="index">
-            <button @click="parseLifespan(match)">{{ match.label }}</button>
-          </td>
-        </tr>
-        <tr>
-          <td v-for="(match, index) in possibleMatches" v-bind:key="index">
-            {{ match.description }}
-          </td>
-        </tr>
-      </table>
+    <div id="possible-matches" v-if="possibleMatches">
+      <div v-for="(match, index) in possibleMatches" v-bind:key="index" class="match">
+        <button @click="parseLifespan(match)">{{ match.label }}</button>
+        <div>
+          {{ match.description }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -32,3 +26,15 @@ export default {
   }
 };
 </script>
+
+<style>
+#possible-matches {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.match {
+  width: 30%;
+  margin: 1%;
+}
+</style>

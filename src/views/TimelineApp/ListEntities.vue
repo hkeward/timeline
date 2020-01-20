@@ -1,6 +1,11 @@
 <template>
   <div>
-    <entity-view v-for="(entity, index) in timelineEntities" v-bind:key="index" :entity="entity" :index="index" />
+    <entity-view
+      v-for="(entity, index) in timelineEntities"
+      v-bind:key="index"
+      :entity="entity"
+      :index="index"
+    />
   </div>
 </template>
 
