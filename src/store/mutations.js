@@ -70,6 +70,10 @@ const SET_ENTITY_COLOUR = (state, { index, colour }) => {
   state.timelineEntities[index].colour = colour;
 };
 
+const TOGGLE_SCALE_LOCK = state => {
+  state.scale.locked = !state.scale.locked;
+};
+
 export default {
   SET_MENU_VISIBILITY,
   SET_ADVANCED_TAB,
@@ -88,5 +92,6 @@ export default {
   SET_CUSTOM_DEATH_ERA,
   SET_RANDOM_COLOUR,
   TOGGLE_ENTITY_INFO,
-  SET_ENTITY_COLOUR
+  SET_ENTITY_COLOUR,
+  TOGGLE_SCALE_LOCK
 };

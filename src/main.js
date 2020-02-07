@@ -5,12 +5,12 @@ import router from "./router/router";
 import store from "./store/store";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faBars, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faPlus, faMinus, faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
 
 Vue.config.productionTip = false;
 Vue.use(Vuex);
 
-library.add(faBars, faPlus, faMinus);
+library.add(faBars, faPlus, faMinus, faLock, faLockOpen);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 

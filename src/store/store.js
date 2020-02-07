@@ -14,7 +14,8 @@ export default new Vuex.Store({
     scale: {
       min: -500,
       max: 500,
-      partition_length: 50
+      partition_length: 50,
+      locked: false
     },
     currentYear: new Date().getFullYear(),
     timelineEntities: [],

@@ -220,6 +220,26 @@ const toggleEntityInfo = ({ commit }, entity_index) => {
   commit("TOGGLE_ENTITY_INFO", entity_index);
 };
 
+const toggleScaleLock = ({ commit }) => {
+  commit("TOGGLE_SCALE_LOCK");
+};
+
+const recalculateScale = ({ state, commit }, event) => {
+  if (!state.scale.locked) {
+    var pixelsBetweenBars = 80;
+    var numBars = (event.target.innerWidth / pixelsBetweenBars) + 1;
+    var yearsBetween = parseInt((state.scale.max - state.scale.min)/numBars);
+    commit("SET_SCALE_PARTITION_LENGTH", yearsBetween);
+  }
+};
+
+const setInitialScale = ({ state, commit }, width) => {
+  commit(
+    "SET_SCALE_PARTITION_LENGTH",
+    parseInt((state.scale.max - state.scale.min) / (width / 80 + 1))
+  );
+};
+
 export default {
   toggleMenu,
   changeAdvancedTab,
@@ -229,5 +249,8 @@ export default {
   clearMatches,
   hsv_to_hex,
   addCustomEntity,
-  toggleEntityInfo
+  toggleEntityInfo,
+  toggleScaleLock,
+  recalculateScale,
+  setInitialScale
 };

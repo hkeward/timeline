@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Timeline",
@@ -89,6 +89,19 @@ export default {
   computed: {
     ...mapState(["scale"]),
     ...mapGetters(["zeroNotShown", "partitions", "indexPriorToZero"])
+  },
+
+  methods: {
+    ...mapActions(["recalculateScale", "setInitialScale"])
+  },
+
+  mounted: function() {
+    window.addEventListener("resize", this.recalculateScale);
+    this.setInitialScale(window.innerWidth);
+  },
+
+  beforeDestroy: function() {
+    window.removeEventListener("resize", this.recalculateScale);
   }
 };
 </script>

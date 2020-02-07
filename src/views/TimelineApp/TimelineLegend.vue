@@ -13,16 +13,22 @@
     <div class="legend">
       <label for="scale-partition-length" class="flex-left">Partition length</label>
       <input id="scale-partition-length" v-model.lazy.number="scale_partition_length" />
-      <div class="flex-right"></div>
+      <div class="flex-right">
+        <font-awesome-icon v-if="scale.locked" icon="lock" @click="toggleScaleLock"></font-awesome-icon>
+        <font-awesome-icon v-else icon="lock-open" @click="toggleScaleLock"></font-awesome-icon>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
   name: "TimelineLegend",
 
   computed: {
+    ...mapState(["scale"]),
     scale_min: {
       get() {
         return this.$store.state.scale.min;
@@ -47,6 +53,10 @@ export default {
         this.$store.commit("SET_SCALE_PARTITION_LENGTH", value);
       }
     }
+  },
+
+  methods: {
+    ...mapActions(["toggleScaleLock"])
   }
 };
 </script>
