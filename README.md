@@ -18,6 +18,11 @@ npm run serve
 npm run build
 ```
 
+### Serve build directory
+```
+serve -l 1970 dist
+```
+
 ### Run your unit tests
 ```
 npm run test:unit
