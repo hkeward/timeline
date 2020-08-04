@@ -1,15 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import TimelineApp from "../views/TimelineApp/TimelineApp.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: Home
-  },
+    name: "timeline",
+    component: TimelineApp
+  }
 ];
 
 const router = new VueRouter({
