@@ -3,6 +3,12 @@
 History is hard to think about. Ground yourself in some important peoples' lives!
 # timeline
 
+If commands aren't working because I made this so long ago - export the following before running node commands:
+
+```bash
+export NODE_OPTIONS=--openssl-legacy-provider
+```
+
 ## Project setup
 ```
 npm install

@@ -1,5 +1,6 @@
 export TIMELINE_FRONTEND_VERSION=$$(git rev-parse --short HEAD)
 export TIMELINE_FRONTEND_IMAGE="timeline-front:${TIMELINE_FRONTEND_VERSION}"
+export NODE_OPTIONS=--openssl-legacy-provider
 
 build:
 	rm -rf docker/target
