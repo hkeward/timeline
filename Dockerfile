@@ -8,6 +8,7 @@ ADD ./.eslintrc.js ./
 
 RUN npm install
 
+ENV NODE_OPTIONS="--openssl-legacy-provider"
 RUN npm run build
 
 FROM node:stretch-slim
