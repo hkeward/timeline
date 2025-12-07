@@ -1,4 +1,4 @@
-FROM node:stretch AS builder
+FROM node:trixie AS builder
 
 WORKDIR /build
 ADD ./package.json ./
@@ -11,9 +11,6 @@ RUN npm install
 ENV NODE_OPTIONS="--openssl-legacy-provider"
 RUN npm run build
 
-FROM node:stretch-slim
-COPY --from=builder /build/dist /dist
+FROM nginx:latest
 
-RUN npm install --global serve
-
-ENTRYPOINT ["serve", "-l", "1970", "dist"]
+COPY --from=builder /build/dist /usr/share/nginx/html

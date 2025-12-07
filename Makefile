@@ -1,5 +1,8 @@
-export IMAGE_VERSION=$$(git rev-parse --short HEAD)
-export IMAGE_NAME="timeline:${IMAGE_VERSION}"
+IMAGE_VERSION := $(shell git rev-parse --short HEAD)
+IMAGE_TAG = registry.somanydoors.ca/heather/timeline:$(IMAGE_VERSION)
 
-build:
-	docker build --rm -t ${IMAGE_NAME} .
+docker-build:
+	docker build --rm -t ${IMAGE_TAG} .
+
+local: docker-build
+	docker run --rm -it --network host $(IMAGE_TAG)
