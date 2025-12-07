@@ -1,10 +1,10 @@
 FROM node:stretch AS builder
 
 WORKDIR /build
-ADD ./target/package.json ./
-ADD ./target/src ./src
-ADD ./target/tests ./tests
-ADD ./target/.eslintrc.js ./
+ADD ./package.json ./
+ADD ./src ./src
+ADD ./tests ./tests
+ADD ./.eslintrc.js ./
 
 RUN npm install
 
